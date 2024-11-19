@@ -12,20 +12,30 @@ def main():
     bg_img = pg.image.load("fig/pg_bg.jpg")
     tmr = 0
 
-     # こうかとん画像を読み込み、左右反転
+    # こうかとん画像を読み込み、左右反転
     kk_img = pg.image.load("fig/3.png")
     kk_img = pg.transform.flip(kk_img, True, False)
+
+    bg_x = 0  # 背景画像の初期横座標
 
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: return
 
-        screen.blit(bg_img, [0, 0])#screen  Surface に背景画像surfaceを描画
+        bg_x -= 1  # 背景画像を左に1ピクセルずつ移動
+        if bg_x <= -800:  # 背景画像が完全に左に移動したらリセット
+            bg_x = 0
+
+        # 背景画像を2つ並べて描画
+        screen.blit(bg_img, [bg_x, 0])
+        screen.blit(bg_img, [bg_x + 800, 0])
+        
+        # こうかとん画像を描画
         screen.blit(kk_img, [300, 200])
+        
         pg.display.update()
         tmr += 1        
-        clock.tick(200)#FPSを指定
-
+        clock.tick(60)  # FPSを指定
 
 if __name__ == "__main__":
     pg.init()
